@@ -88,10 +88,15 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
+-- tags = {
+--   names = { 'Console', 'Web', 3, 4, 5, 6, 7, 8, 'IM' },
+--   layout = {layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1]}
+-- }
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({ 'Console', 'Web', 3, 4, 5, 6, 7, 8, 'IM' }, s, layouts[1])
 end
+
 -- }}}
 
 -- {{{ Menu
@@ -386,6 +391,8 @@ awful.rules.rules = {
     -- Pidgin
     { rule = { class = "Pidgin" },
       properties = { tag = tags[1][9], floating = true } },
+    { rule = { class = "VirtualBox" },
+      properties = { floating = true } },
 }
 -- }}}
 
