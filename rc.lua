@@ -383,6 +383,7 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Iceweasel" },
       properties = { tag = tags[1][2] } },
+    { rule = { class = "Iceweasel", instance = "Dialog" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     -- Skype
     { rule = { class = "Skype" },
       properties = { tag = tags[1][9], floating = true } },
