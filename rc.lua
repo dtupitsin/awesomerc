@@ -48,6 +48,7 @@ beautiful.init("/home/d9m0n/.config/awesome/theme.lua")
 -- This is used later as the default terminal and editor to run.
 --terminal = "xterm"
 terminal = "xterm -fa 'monospace:pixelsize=12' -e tmux"
+-- terminal = "sakura -x tmux"
 editor = os.getenv("EDITOR") or "nano"
 --editor_cmd = terminal .. " -e " .. editor
 editor_cmd = terminal .. " -c " .. editor
@@ -383,7 +384,10 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Iceweasel" },
       properties = { tag = tags[1][2] } },
-    { rule = { class = "Iceweasel", instance = "Dialog" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Iceweasel", instance = "Dialog" },  callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Iceweasel", instance = "Popup" },   callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Iceweasel", instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Places",    instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     -- Skype
     { rule = { class = "Skype" },
       properties = { tag = tags[1][9], floating = true } },
