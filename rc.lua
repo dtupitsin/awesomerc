@@ -11,7 +11,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
-local battery = require("battery")
+--local battery = require("battery")
 
 os.setlocale("ru_RU.utf8")
 
@@ -43,13 +43,13 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/home/d9m0n/.config/awesome/theme.lua")
+beautiful.init("/home/dtupitsin/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "xterm"
-terminal = "xterm -fa 'monospace:pixelsize=12' -e tmux"
--- terminal = "sakura -x tmux"
-editor = os.getenv("EDITOR") or "nano"
+--terminal = "xterm -fa 'monospace:pixelsize=12' -e tmux"
+terminal = "sakura -x tmux"
+editor = os.getenv("EDITOR") or "vim"
 --editor_cmd = terminal .. " -e " .. editor
 editor_cmd = terminal .. " -c " .. editor
 
@@ -98,6 +98,8 @@ for s = 1, screen.count() do
     tags[s] = awful.tag({ 'Console', 'Web', 3, 4, 5, 6, 7, 8, 'IM' }, s, layouts[1])
 end
 
+-- tags[2] = awful.tag({})
+
 -- }}}
 
 -- {{{ Menu
@@ -125,7 +127,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
-mybat = battery.new(120)
+-- mybat = battery.new(120)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -206,7 +208,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(mybat)
+--    right_layout:add(mybat)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -382,22 +384,29 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Iceweasel" },
+    { rule = { class = "Firefox" },
       properties = { tag = tags[1][2] } },
-    { rule = { class = "Iceweasel", instance = "Dialog" },  callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
-    { rule = { class = "Iceweasel", instance = "Popup" },   callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
-    { rule = { class = "Iceweasel", instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Firefox", instance = "Dialog" },  callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Firefox", instance = "Popup" },   callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
+    { rule = { class = "Firefox", instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     { rule = { class = "Places",    instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     -- Skype
-    { rule = { class = "Skype" },
-      properties = { tag = tags[1][9], floating = true } },
-    { rule = { class = "Skype", role = "ConversationsWindow" },
-      properties = { tag = tags[1][9], floating = true } },
-    -- Pidgin
+--    { rule = { class = "Skype" },
+--      properties = { tag = tags[2][9], floating = true } },
+--    { rule = { class = "Skype", role = "ConversationsWindow" },
+--      properties = { tag = tags[2][9], callback = awful.client.setslave  } },
+    { rule = { class = "VirtualBox" },
+      properties = { tag = tags[1][8], floating = true } },
+    --[[ Pidgin
     { rule = { class = "Pidgin" },
       properties = { tag = tags[1][9], floating = true } },
-    { rule = { class = "VirtualBox" },
-      properties = { floating = true } },
+      ]]--
+      --[[ Second Screen
+    { rule = { class = "Telegram" },
+      properties = { tag = tags[2][7] } },
+    { rule = { class = "Slack" },
+      properties = { tag = tags[2][8] } },
+      ]]--
 }
 -- }}}
 
@@ -473,3 +482,10 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- {{{
+-- My Autostart
+-- }}}
+awful.util.spawn("zim --plugin trayicon&")
+--awful.util.spawn_with_shell("zim")
+awful.util.spawn("xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --mode 1920x1080 --pos 0x0 --rotate normal --output VGA1 --off")
