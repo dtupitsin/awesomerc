@@ -11,7 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
---local battery = require("battery")
+local battery = require("battery")
+local weather = require("weather")
 
 os.setlocale("ru_RU.utf8")
 
@@ -43,7 +44,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/home/dtupitsin/.config/awesome/theme.lua")
+beautiful.init("/home/d9m0n/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "xterm"
@@ -127,7 +128,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
 
--- mybat = battery.new(120)
+mybat = battery.new(120)
+--my_weather = weather.new()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -208,7 +210,8 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
---    right_layout:add(mybat)
+    right_layout:add(mybat)
+    --right_layout:add(my_weather)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
@@ -391,22 +394,21 @@ awful.rules.rules = {
     { rule = { class = "Firefox", instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     { rule = { class = "Places",    instance = "Mozilla" }, callback = function(c) awful.client.movetotag(tags[mouse.screen][awful.tag.getidx()], c) end},
     -- Skype
---    { rule = { class = "Skype" },
---      properties = { tag = tags[2][9], floating = true } },
---    { rule = { class = "Skype", role = "ConversationsWindow" },
---      properties = { tag = tags[2][9], callback = awful.client.setslave  } },
+    { rule = { class = "Skype" },
+      properties = { tag = tags[1][9], floating = true } },
+    { rule = { class = "Skype", role = "ConversationsWindow" },
+      --properties = { tag = tags[1][9], callback = awful.client.setslave  } },
+      properties = { tag = tags[1][9], floating = true } },
     { rule = { class = "VirtualBox" },
-      properties = { tag = tags[1][8], floating = true } },
+      properties = { tag = tags[1][6], floating = true } },
     --[[ Pidgin
     { rule = { class = "Pidgin" },
       properties = { tag = tags[1][9], floating = true } },
       ]]--
-      --[[ Second Screen
     { rule = { class = "Telegram" },
-      properties = { tag = tags[2][7] } },
+      properties = { tag = tags[1][7] } },
     { rule = { class = "Slack" },
-      properties = { tag = tags[2][8] } },
-      ]]--
+      properties = { tag = tags[1][8] } },
 }
 -- }}}
 
@@ -486,6 +488,6 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- {{{
 -- My Autostart
 -- }}}
-awful.util.spawn("zim --plugin trayicon&")
+--awful.util.spawn("zim --plugin trayicon&")
 --awful.util.spawn_with_shell("zim")
-awful.util.spawn("xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --mode 1920x1080 --pos 0x0 --rotate normal --output VGA1 --off")
+--awful.util.spawn("xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --mode 1920x1080 --pos 0x0 --rotate normal --output VGA1 --off")

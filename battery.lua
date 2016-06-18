@@ -1,4 +1,3 @@
-
 local setmetatable = setmetatable
 local io = require("io")
 local textbox = require("wibox.widget.textbox")
