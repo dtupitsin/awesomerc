@@ -12,7 +12,8 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 
 local battery = require("battery")
-local weather = require("weather")
+--local weather = require("weather")
+local myinfo = require("myinfo")
 
 os.setlocale("ru_RU.utf8")
 
@@ -130,6 +131,7 @@ mytextclock = awful.widget.textclock()
 
 mybat = battery.new(120)
 --my_weather = weather.new()
+my_info = myinfo.new()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -209,8 +211,9 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(my_info)
     right_layout:add(mybat)
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
     --right_layout:add(my_weather)
     right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
@@ -409,6 +412,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][7] } },
     { rule = { class = "Slack" },
       properties = { tag = tags[1][8] } },
+    { rule = { instance = "plugin-container" },
+      properties = { floating = true } },
 }
 -- }}}
 
